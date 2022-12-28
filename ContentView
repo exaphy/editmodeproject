@@ -1,0 +1,49 @@
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        // place your tab view here
+        TabView {
+            ListView()
+                .tabItem {
+                    Label("One", systemImage: "person")
+                }
+            
+            Text("Test")
+                .tabItem {
+                    Label("Two", systemImage: "person.2")
+                }
+        }
+    }
+}
+
+struct ListView: View {
+    var body: some View {
+        // create a navigation view and a list. inside the list, put the view of your contents--the contents of the list
+        NavigationView {
+            List {
+               ListContent() 
+            }
+            .toolbar {
+                EditButton()
+            }
+        }
+    }
+}
+
+struct ListContent: View {
+    @Environment(\.editMode) var editMode
+    @State private var items = ["A", "B", "C"]
+    
+    var body: some View {
+        // put the contents of your list here
+        ForEach(items, id: \.self) {
+            Text($0)
+                .toolbar(editMode?.wrappedValue.isEditing == true ? .hidden : .visible, for: .tabBar)
+        }
+    }
+    
+    func delete(at offsets: IndexSet) {
+        items.remove(atOffsets: offsets)
+    }
+}
