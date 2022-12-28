@@ -41,6 +41,7 @@ struct ListContent: View {
             Text($0)
                 .toolbar(editMode?.wrappedValue.isEditing == true ? .hidden : .visible, for: .tabBar)
         }
+            .onDelete(perform: delete)
     }
     
     func delete(at offsets: IndexSet) {
